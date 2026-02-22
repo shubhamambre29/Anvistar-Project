@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.dxsure.dao.DBConnection;
 
 public class PaymentServlet extends HttpServlet {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 

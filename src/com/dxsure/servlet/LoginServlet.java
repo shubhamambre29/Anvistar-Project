@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import com.dxsure.dao.DBConnection;
 
 public class LoginServlet extends HttpServlet {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
