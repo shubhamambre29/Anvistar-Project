@@ -1,0 +1,467 @@
+/* DXSure CRM Stylesheet */
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --info-color: #16a085;
+    --light-gray: #ecf0f1;
+    --dark-gray: #34495e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: var(--primary-color);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-right: 1.5rem;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: var(--secondary-color);
+}
+
+.navbar .brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.navbar .user-menu {
+    float: right;
+}
+
+/* Login Page */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.login-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-box h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: white;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #229954;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.btn-info {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #2980b9;
+}
+
+/* Alert Messages */
+.alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: var(--success-color);
+    color: #155724;
+}
+
+.alert-error,
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: var(--danger-color);
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: var(--info-color);
+    color: #0c5460;
+}
+
+/* Dashboard */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.dashboard-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-card .number {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.dashboard-card .label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Tables */
+.table-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table thead {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+table th,
+table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-open {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-in_progress {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-resolved,
+.status-completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-closed {
+    background-color: #e2e3e5;
+    color: #383d41;
+}
+
+.priority-high {
+    color: var(--danger-color);
+    font-weight: bold;
+}
+
+.priority-medium {
+    color: var(--warning-color);
+    font-weight: bold;
+}
+
+.priority-low {
+    color: var(--info-color);
+    font-weight: bold;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: var(--primary-color);
+    padding: 2rem 0;
+    min-height: 100vh;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar a {
+    display: block;
+    padding: 1rem 1.5rem;
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background-color: var(--secondary-color);
+    padding-left: 2rem;
+}
+
+/* Well Class (Bootstrap compatible) */
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+}
+
+.well-sm {
+    padding: 9px 12px;
+    margin-bottom: 10px;
+}
+
+.well-lg {
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+/* Forms */
+.form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.form-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row.full {
+    grid-template-columns: 1fr;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    min-height: 100px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    resize: vertical;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Header/Page Title */
+.page-header {
+    background-color: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--secondary-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.page-header h1 {
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.page-header .subtitle {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .navbar a {
+        margin-right: 1rem;
+    }
+    
+    .navbar .user-menu {
+        float: none;
+        margin-top: 1rem;
+    }
+    
+    table {
+        font-size: 0.9rem;
+    }
+    
+    table th,
+    table td {
+        padding: 0.75rem;
+    }
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.row {
+    display: flex;
+    gap: 1rem;
+}
+
+.col-md-6 {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+}

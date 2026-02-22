@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DXSure CRM - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #2c3e50;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .navbar a:hover {
+            color: #3498db;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            background-color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #3498db;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .page-header h1 {
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        .page-header .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .dashboard-card h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-card .number {
+            font-size: 2rem;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .dashboard-card .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #229954;
+        }
+        
+        .quick-actions {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .quick-actions h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #3498db;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+        
+        .info-box h4 {
+            color: #1976d2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box p {
+            color: #0d47a1;
+            margin: 0.25rem 0;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .table-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table thead {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        table th, table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="navbar">
+        <div class="brand">DXSure CRM</div>
+        <div>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#clients">Clients</a>
+            <a href="#vendors">Vendors</a>
+            <a href="#tickets">Tickets</a>
+            <span style="margin-left: 2rem;">Welcome, Admin</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>DXSure CRM - Admin Dashboard Demo</h1>
+            <p class="subtitle">Digital Software Solution - CRM System</p>
+        </div>
+        
+        <!-- Status Info -->
+        <div class="info-box">
+            <h4>📌 Demo Version</h4>
+            <p>✅ Project Complete - Ready for Full Deployment</p>
+            <p>This is an interactive demo showing the application structure and features.</p>
+            <p>For full functionality, deploy to Tomcat with MySQL database. See INSTALLATION.md</p>
+        </div>
+        
+        <!-- Dashboard Cards -->
+        <div class="dashboard-container">
+            <div class="dashboard-card">
+                <h3>Total Users</h3>
+                <div class="number">12</div>
+                <div class="label">Active Users</div>
+            </div>
+            
+            <div class="dashboard-card">
+                <h3>Total Clients</h3>
+                <div class="number">28</div>
+                <div class="label">Registered Clients</div>
+            </div>
+            
+            <div class="dashboard-card">
+                <h3>Total Vendors</h3>
+                <div class="number">15</div>
+                <div class="label">Active Vendors</div>
+            </div>
+            
+            <div class="dashboard-card">
+                <h3>Open Tickets</h3>
+                <div class="number">8</div>
+                <div class="label">Support Tickets</div>
+            </div>
+            
+            <div class="dashboard-card">
+                <h3>Pending Payments</h3>
+                <div class="number">5</div>
+                <div class="label">Awaiting Payment</div>
+            </div>
+            
+            <div class="dashboard-card">
+                <h3>Total Revenue</h3>
+                <div class="number">₹2.5L</div>
+                <div class="label">This Month</div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-buttons">
+                <button class="btn btn-primary">Manage Users</button>
+                <button class="btn btn-success">Add Client</button>
+                <button class="btn btn-primary">Add Vendor</button>
+                <button class="btn btn-success">Create Ticket</button>
+                <button class="btn btn-primary">Record Payment</button>
+                <button class="btn btn-success">Add Expense</button>
+            </div>
+        </div>
+        
+        <!-- Sample Data Table -->
+        <div class="table-container">
+            <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">Recent Clients</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Client ID</th>
+                        <th>Client Name</th>
+                        <th>Email</th>
+                        <th>Company</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Rajesh Kumar</td>
+                        <td>rajesh@company.com</td>
+                        <td>Tech Solutions</td>
+                        <td><span class="status-badge">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Priya Sharma</td>
+                        <td>priya@business.com</td>
+                        <td>Digital Services</td>
+                        <td><span class="status-badge">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Amit Patel</td>
+                        <td>amit@enterprise.com</td>
+                        <td>Global IT</td>
+                        <td><span class="status-badge">Active</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Project Info -->
+        <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 2rem;">
+            <h2 style="color: #2c3e50; margin-bottom: 1rem;">📋 Project Information</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h3 style="color: #3498db; margin-bottom: 0.5rem;">✅ Completed Components</h3>
+                    <ul style="list-style: none; color: #666;">
+                        <li>✓ 8 Backend Servlets</li>
+                        <li>✓ 15 JSP Pages</li>
+                        <li>✓ Complete Database Schema</li>
+                        <li>✓ Professional Styling (CSS)</li>
+                        <li>✓ User Authentication</li>
+                        <li>✓ Role-Based Access Control</li>
+                        <li>✓ Complete Documentation</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 style="color: #3498db; margin-bottom: 0.5rem;">📁 Project Features</h3>
+                    <ul style="list-style: none; color: #666;">
+                        <li>✓ User Management</li>
+                        <li>✓ Client Management</li>
+                        <li>✓ Vendor Management</li>
+                        <li>✓ Support Ticketing</li>
+                        <li>✓ Payment Tracking</li>
+                        <li>✓ Petty Cash Management</li>
+                        <li>✓ Dashboard Analytics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Setup Instructions -->
+        <div style="background: #fffbea; border-left: 4px solid #f39c12; padding: 1.5rem; border-radius: 4px; margin-top: 2rem;">
+            <h3 style="color: #d68910; margin-bottom: 1rem;">🚀 How to Run the Full Application</h3>
+            <ol style="color: #666; padding-left: 1.5rem;">
+                <li><strong>Create MySQL Database</strong>
+                    <pre style="background: white; padding: 0.5rem; border-radius: 4px; margin: 0.5rem 0; overflow-x: auto;">mysql -u root -p < database/dxsure_schema.sql</pre>
+                </li>
+                <li><strong>Configure Database Connection</strong>
+                    <pre style="background: white; padding: 0.5rem; border-radius: 4px; margin: 0.5rem 0;">Edit: src/com/dxsure/dao/DBConnection.java
+Update username and password</pre>
+                </li>
+                <li><strong>Deploy to Tomcat</strong>
+                    <pre style="background: white; padding: 0.5rem; border-radius: 4px; margin: 0.5rem 0;">Copy DXSure-CRM to [TOMCAT]/webapps/</pre>
+                </li>
+                <li><strong>Start Tomcat Server</strong>
+                    <pre style="background: white; padding: 0.5rem; border-radius: 4px; margin: 0.5rem 0;">Run: [TOMCAT]/bin/startup.bat</pre>
+                </li>
+                <li><strong>Access Application</strong>
+                    <pre style="background: white; padding: 0.5rem; border-radius: 4px; margin: 0.5rem 0;">http://localhost:8080/DXSure-CRM</pre>
+                </li>
+            </ol>
+            
+            <h4 style="color: #d68910; margin-top: 1.5rem; margin-bottom: 0.5rem;">📝 Login Credentials</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="background: white; padding: 1rem; border-radius: 4px;">
+                    <p style="font-weight: bold; color: #2c3e50;">Admin</p>
+                    <p>Username: <code style="background: #f0f0f0; padding: 0.2rem 0.4rem; border-radius: 2px;">admin</code></p>
+                    <p>Password: <code style="background: #f0f0f0; padding: 0.2rem 0.4rem; border-radius: 2px;">admin123</code></p>
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 4px;">
+                    <p style="font-weight: bold; color: #2c3e50;">Employee</p>
+                    <p>Username: <code style="background: #f0f0f0; padding: 0.2rem 0.4rem; border-radius: 2px;">employee1</code></p>
+                    <p>Password: <code style="background: #f0f0f0; padding: 0.2rem 0.4rem; border-radius: 2px;">emp123</code></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Documentation Links -->
+        <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 2rem;">
+            <h2 style="color: #2c3e50; margin-bottom: 1rem;">📚 Documentation</h2>
+            <p style="color: #666; margin-bottom: 1rem;">For detailed information, refer to:</p>
+            <ul style="list-style: none; color: #3498db;">
+                <li>📄 <strong>README.md</strong> - Project overview and features</li>
+                <li>📄 <strong>INSTALLATION.md</strong> - Step-by-step setup guide</li>
+                <li>📄 <strong>QUICK_REFERENCE.md</strong> - Quick lookup guide</li>
+                <li>📄 <strong>PROJECT_SUMMARY.md</strong> - Completion status</li>
+                <li>📄 <strong>PROJECT_INDEX.md</strong> - Complete file structure</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 DXSure CRM. All rights reserved. | Digital Software Solution</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">This is a demo version. For production deployment, see installation guides.</p>
+    </footer>
+</body>
+</html>
