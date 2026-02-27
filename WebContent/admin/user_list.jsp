@@ -18,14 +18,14 @@
 <body>
     <!-- Navigation -->
     <div class="navbar">
-        <div class="brand">DXSure CRM</div>
-        <a href="dashboard.jsp">Dashboard</a>
-        <a href="user_list.jsp" class="active">Users</a>
-        <a href="client_list.jsp">Clients</a>
-        <a href="vendor_list.jsp">Vendors</a>
-        <a href="payment_list.jsp">Payments</a>
-        <a href="pettycash_list.jsp">Petty Cash</a>
-        <a href="ticket_list.jsp">Tickets</a>
+        <div class="brand"><img src="../images/logo.svg" alt="DXSure CRM"></div>
+        <a href="/admin/dashboard.jsp">Dashboard</a>
+        <a href="../user" style="color: var(--secondary-color);">Users</a>
+        <a href="../client">Clients</a>
+        <a href="../vendor">Vendors</a>
+        <a href="../payment">Payments</a>
+        <a href="../pettycash">Petty Cash</a>
+        <a href="../ticket">Tickets</a>
         <div class="user-menu">
             <span>Welcome, <%= session.getAttribute("username") %></span>
             <a href="../logout">Logout</a>
@@ -39,18 +39,40 @@
     </div>
     
     <div class="container">
-        <% 
+        <%
             String success = (String) request.getAttribute("success");
-            String error = (String) request.getAttribute("error");
-            
-            if (success != null) {
+            String error   = (String) request.getAttribute("error");
         %>
-            <div class="alert alert-success"><%= success %></div>
+        <% if (success != null) { %>
+        <div class="toast-notification toast-success" id="saveToast">
+            <div class="toast-icon-wrap">&#10004;</div>
+            <div class="toast-content">
+                <div class="toast-title">Saved Successfully!</div>
+                <div class="toast-msg"><%= success %></div>
+            </div>
+            <button class="toast-dismiss" onclick="dismissToast('saveToast')">&#10005;</button>
+            <div class="toast-progress" style="animation-duration:4s"></div>
+        </div>
         <% } %>
-        
         <% if (error != null) { %>
-            <div class="alert alert-error"><%= error %></div>
+        <div class="toast-notification toast-error" id="errToast">
+            <div class="toast-icon-wrap">&#10008;</div>
+            <div class="toast-content">
+                <div class="toast-title">Error Occurred</div>
+                <div class="toast-msg"><%= error %></div>
+            </div>
+            <button class="toast-dismiss" onclick="dismissToast('errToast')">&#10005;</button>
+            <div class="toast-progress" style="animation-duration:6s"></div>
+        </div>
         <% } %>
+        <script>
+        function dismissToast(id){
+            var e=document.getElementById(id);
+            if(e){e.classList.add('toast-hide');setTimeout(function(){e.remove();},380);}
+        }
+        <% if (success != null) { %>setTimeout(function(){dismissToast('saveToast');},4000);<% } %>
+        <% if (error   != null) { %>setTimeout(function(){dismissToast('errToast');},6000);<% } %>
+        </script>
         
         <!-- Add User Button -->
         <div style="margin-bottom: 2rem; text-align: right;">
@@ -62,7 +84,7 @@
         <!-- Add User Form (Hidden by default) -->
         <div id="addUserForm" style="display: none; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem;">
             <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">Add New User</h2>
-            <form method="POST" action="../admin/user">
+            <form method="POST" action="../user">
                 <input type="hidden" name="action" value="add">
                 
                 <div class="form-row">
@@ -135,7 +157,7 @@
                         <td>
                             <a href="#" class="btn btn-info" style="font-size: 0.85rem; padding: 0.5rem 0.75rem;">Edit</a>
                             <% if (!"1".equals(user[0])) { %>
-                                <form method="POST" action="../admin/user" style="display: inline;">
+                                <form method="POST" action="../user" style="display: inline;">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="userId" value="<%= user[0] %>">
                                     <button type="submit" class="btn btn-danger" style="font-size: 0.85rem; padding: 0.5rem 0.75rem;" onclick="return confirm('Are you sure?');">Delete</button>

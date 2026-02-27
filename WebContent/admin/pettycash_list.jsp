@@ -18,12 +18,13 @@
 <body>
     <!-- Navigation -->
     <div class="navbar">
-        <div class="brand">DXSure CRM</div>
-        <a href="dashboard.jsp">Dashboard</a>
-        <a href="client_list.jsp">Clients</a>
-        <a href="vendor_list.jsp">Vendors</a>
-        <a href="payment_list.jsp">Payments</a>
-        <a href="pettycash_list.jsp" style="color: var(--secondary-color);">Petty Cash</a>
+        <div class="brand"><img src="../images/logo.svg" alt="DXSure CRM"></div>
+        <a href="/admin/dashboard.jsp">Dashboard</a>
+        <a href="../client">Clients</a>
+        <a href="../vendor">Vendors</a>
+        <a href="../payment">Payments</a>
+        <a href="../pettycash" style="color: var(--secondary-color);">Petty Cash</a>
+        <a href="../ticket">Tickets</a>
         <div class="user-menu">
             <span>Welcome, <%= session.getAttribute("username") %></span>
             <a href="../logout">Logout</a>
@@ -37,18 +38,40 @@
     </div>
     
     <div class="container">
-        <% 
+        <%
             String success = (String) request.getAttribute("success");
-            String error = (String) request.getAttribute("error");
-            
-            if (success != null) {
+            String error   = (String) request.getAttribute("error");
         %>
-            <div class="alert alert-success"><%= success %></div>
+        <% if (success != null) { %>
+        <div class="toast-notification toast-success" id="saveToast">
+            <div class="toast-icon-wrap">&#10004;</div>
+            <div class="toast-content">
+                <div class="toast-title">Saved Successfully!</div>
+                <div class="toast-msg"><%= success %></div>
+            </div>
+            <button class="toast-dismiss" onclick="dismissToast('saveToast')">&#10005;</button>
+            <div class="toast-progress" style="animation-duration:4s"></div>
+        </div>
         <% } %>
-        
         <% if (error != null) { %>
-            <div class="alert alert-error"><%= error %></div>
+        <div class="toast-notification toast-error" id="errToast">
+            <div class="toast-icon-wrap">&#10008;</div>
+            <div class="toast-content">
+                <div class="toast-title">Error Occurred</div>
+                <div class="toast-msg"><%= error %></div>
+            </div>
+            <button class="toast-dismiss" onclick="dismissToast('errToast')">&#10005;</button>
+            <div class="toast-progress" style="animation-duration:6s"></div>
+        </div>
         <% } %>
+        <script>
+        function dismissToast(id){
+            var e=document.getElementById(id);
+            if(e){e.classList.add('toast-hide');setTimeout(function(){e.remove();},380);}
+        }
+        <% if (success != null) { %>setTimeout(function(){dismissToast('saveToast');},4000);<% } %>
+        <% if (error   != null) { %>setTimeout(function(){dismissToast('errToast');},6000);<% } %>
+        </script>
         
         <!-- Add Petty Cash Button -->
         <div style="margin-bottom: 2rem; text-align: right;">

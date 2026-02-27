@@ -8,11 +8,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import com.dxsure.dao.DBConnection;
 
 public class UserServlet extends HttpServlet {
@@ -95,7 +97,7 @@ public class UserServlet extends HttpServlet {
         }
         
         request.setAttribute("users", users);
-        request.getRequestDispatcher("user_list.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin/user_list.jsp").forward(request, response);
     }
     
     private void addUser(HttpServletRequest request, HttpServletResponse response) 

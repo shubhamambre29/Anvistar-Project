@@ -8,11 +8,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import com.dxsure.dao.DBConnection;
 
 public class ClientServlet extends HttpServlet {
@@ -100,9 +102,9 @@ public class ClientServlet extends HttpServlet {
         
         String role = (String) request.getSession().getAttribute("role");
         if ("admin".equals(role)) {
-            request.getRequestDispatcher("client_list.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/client_list.jsp").forward(request, response);
         } else {
-            request.getRequestDispatcher("../employee/client_list.jsp").forward(request, response);
+            request.getRequestDispatcher("/employee/client_list.jsp").forward(request, response);
         }
     }
     
@@ -155,7 +157,7 @@ public class ClientServlet extends HttpServlet {
         String industry = request.getParameter("industry");
         
         HttpSession session = request.getSession();
-        int userId = (Integer) session.getAttribute("userId");
+        int userId = Integer.parseInt(String.valueOf(session.getAttribute("userId")));
         
         Connection conn = null;
         PreparedStatement pstmt = null;

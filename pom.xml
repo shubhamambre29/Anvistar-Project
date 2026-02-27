@@ -51,16 +51,10 @@
             <version>9.0.113</version>
         </dependency>
 
+        <!-- JSP Support for Embedded Tomcat -->
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-catalina</artifactId>
-            <version>9.0.113</version>
-        </dependency>
-
-        <!-- JSP Support -->
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jasper</artifactId>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
             <version>9.0.113</version>
         </dependency>
 
@@ -84,10 +78,10 @@
             <version>2.11.0</version>
         </dependency>
 
-        <!-- EL API -->
+        <!-- EL Support for Embedded Tomcat -->
         <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-el-api</artifactId>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-el</artifactId>
             <version>9.0.113</version>
         </dependency>
     </dependencies>
@@ -112,17 +106,17 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warSourceDirectory>WebContent</warSourceDirectory>
                     <webappDirectory>${basedir}/target/DXSure-CRM</webappDirectory>
+                    <packagingExcludes>WEB-INF/lib/tomcat-embed-*.jar,WEB-INF/lib/tomcat-annotations-api-*.jar,WEB-INF/lib/ecj-*.jar</packagingExcludes>
                 </configuration>
             </plugin>
 
-            <!-- Tomcat7 Maven Plugin -->
+            <!-- Exec Maven Plugin to run embedded Tomcat -->
             <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
-                    <port>8080</port>
-                    <path>/DXSure-CRM</path>
+                    <mainClass>com.dxsure.DXSureServer</mainClass>
                 </configuration>
             </plugin>
         </plugins>

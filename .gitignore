@@ -1,0 +1,23 @@
+# Build output
+target/
+
+# Tomcat runtime dirs
+tomcat-temp/
+tomcat.8080/
+
+# Log files
+*.log
+server-err.log
+server-run.log
+server.log
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+*.swp
+Thumbs.db
+.DS_Store

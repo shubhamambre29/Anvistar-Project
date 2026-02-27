@@ -8,11 +8,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import com.dxsure.dao.DBConnection;
 
 public class PaymentServlet extends HttpServlet {
@@ -29,13 +31,18 @@ public class PaymentServlet extends HttpServlet {
         }
         
         String type = request.getParameter("type");
-        
-        if (type == null || "client".equals(type)) {
-            listClientPayments(request, response);
-        } else if ("vendor".equals(type)) {
-            listVendorPayments(request, response);
-        } else if ("employee".equals(type)) {
-            listEmployeePayments(request, response);
+        String activeTab = (type == null) ? "client" : type;
+
+        loadClientPayments(request);
+        loadVendorPayments(request);
+        loadEmployeePayments(request);
+        request.setAttribute("activeTab", activeTab);
+
+        String role = (String) session.getAttribute("role");
+        if ("admin".equals(role)) {
+            request.getRequestDispatcher("/admin/payment_list.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/employee/payment_list.jsp").forward(request, response);
         }
     }
     
@@ -60,147 +67,66 @@ public class PaymentServlet extends HttpServlet {
         }
     }
     
-    private void listClientPayments(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        List<String[]> payments = new ArrayList<>();
-        
+    private void loadClientPayments(HttpServletRequest request) {
+        List<String[]> list = new ArrayList<>();
         try {
-            conn = DBConnection.getConnection();
+            Connection conn = DBConnection.getConnection();
             if (conn != null) {
-                stmt = conn.createStatement();
-                String query = "SELECT cp.client_payment_id, c.client_name, cp.amount, cp.payment_date, cp.payment_method, cp.status FROM client_payments cp JOIN clients c ON cp.client_id = c.client_id ORDER BY cp.client_payment_id DESC";
-                rs = stmt.executeQuery(query);
-                
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT cp.client_payment_id, c.client_name, cp.amount, cp.payment_date, cp.payment_method, cp.status FROM client_payments cp JOIN clients c ON cp.client_id = c.client_id ORDER BY cp.client_payment_id DESC");
                 while (rs.next()) {
-                    String[] payment = {
+                    list.add(new String[]{
                         String.valueOf(rs.getInt("client_payment_id")),
-                        rs.getString("client_name"),
-                        rs.getString("amount"),
-                        rs.getString("payment_date"),
-                        rs.getString("payment_method"),
-                        rs.getString("status")
-                    };
-                    payments.add(payment);
+                        rs.getString("client_name"), rs.getString("amount"),
+                        rs.getString("payment_date"), rs.getString("payment_method"), rs.getString("status")
+                    });
                 }
+                rs.close(); stmt.close(); conn.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        
-        request.setAttribute("payments", payments);
-        
-        String role = (String) request.getSession().getAttribute("role");
-        if ("admin".equals(role)) {
-            request.getRequestDispatcher("admin/payment_list.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("employee/payment_list.jsp").forward(request, response);
-        }
+        } catch (Exception e) { e.printStackTrace(); }
+        request.setAttribute("clientPayments", list);
     }
     
-    private void listVendorPayments(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        List<String[]> payments = new ArrayList<>();
-        
+    private void loadVendorPayments(HttpServletRequest request) {
+        List<String[]> list = new ArrayList<>();
         try {
-            conn = DBConnection.getConnection();
+            Connection conn = DBConnection.getConnection();
             if (conn != null) {
-                stmt = conn.createStatement();
-                String query = "SELECT vp.vendor_payment_id, v.vendor_name, vp.amount, vp.payment_date, vp.invoice_number, vp.status FROM vendor_payments vp JOIN vendors v ON vp.vendor_id = v.vendor_id ORDER BY vp.vendor_payment_id DESC";
-                rs = stmt.executeQuery(query);
-                
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT vp.vendor_payment_id, v.vendor_name, vp.amount, vp.payment_date, vp.invoice_number, vp.status FROM vendor_payments vp JOIN vendors v ON vp.vendor_id = v.vendor_id ORDER BY vp.vendor_payment_id DESC");
                 while (rs.next()) {
-                    String[] payment = {
+                    list.add(new String[]{
                         String.valueOf(rs.getInt("vendor_payment_id")),
-                        rs.getString("vendor_name"),
-                        rs.getString("amount"),
-                        rs.getString("payment_date"),
-                        rs.getString("invoice_number"),
-                        rs.getString("status")
-                    };
-                    payments.add(payment);
+                        rs.getString("vendor_name"), rs.getString("amount"),
+                        rs.getString("payment_date"), rs.getString("invoice_number"), rs.getString("status")
+                    });
                 }
+                rs.close(); stmt.close(); conn.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        
-        request.setAttribute("payments", payments);
-        
-        String role = (String) request.getSession().getAttribute("role");
-        if ("admin".equals(role)) {
-            request.getRequestDispatcher("admin/vendor_payment_list.jsp").forward(request, response);
-        } else {
-            request.getRequestDispatcher("employee/vendor_payment_list.jsp").forward(request, response);
-        }
+        } catch (Exception e) { e.printStackTrace(); }
+        request.setAttribute("vendorPayments", list);
     }
     
-    private void listEmployeePayments(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        List<String[]> payments = new ArrayList<>();
-        
+    private void loadEmployeePayments(HttpServletRequest request) {
+        List<String[]> list = new ArrayList<>();
         try {
-            conn = DBConnection.getConnection();
+            Connection conn = DBConnection.getConnection();
             if (conn != null) {
-                stmt = conn.createStatement();
-                String query = "SELECT ep.emp_payment_id, u.full_name, ep.amount, ep.payment_date, ep.payment_type, ep.status FROM employee_payments ep JOIN users u ON ep.employee_id = u.user_id ORDER BY ep.emp_payment_id DESC";
-                rs = stmt.executeQuery(query);
-                
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT ep.emp_payment_id, u.full_name, ep.amount, ep.payment_date, ep.payment_type, ep.status FROM employee_payments ep JOIN users u ON ep.employee_id = u.user_id ORDER BY ep.emp_payment_id DESC");
                 while (rs.next()) {
-                    String[] payment = {
+                    list.add(new String[]{
                         String.valueOf(rs.getInt("emp_payment_id")),
-                        rs.getString("full_name"),
-                        rs.getString("amount"),
-                        rs.getString("payment_date"),
-                        rs.getString("payment_type"),
-                        rs.getString("status")
-                    };
-                    payments.add(payment);
+                        rs.getString("full_name"), rs.getString("amount"),
+                        rs.getString("payment_date"), rs.getString("payment_type"), rs.getString("status")
+                    });
                 }
+                rs.close(); stmt.close(); conn.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        
-        request.setAttribute("payments", payments);
-        request.getRequestDispatcher("admin/employee_payment_list.jsp").forward(request, response);
+        } catch (Exception e) { e.printStackTrace(); }
+        request.setAttribute("employeePayments", list);
     }
-    
+
     private void addClientPayment(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
@@ -210,7 +136,7 @@ public class PaymentServlet extends HttpServlet {
         String description = request.getParameter("description");
         
         HttpSession session = request.getSession();
-        int userId = (Integer) session.getAttribute("userId");
+        int userId = Integer.parseInt(String.valueOf(session.getAttribute("userId")));
         
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -240,9 +166,11 @@ public class PaymentServlet extends HttpServlet {
             }
         }
         
-        listClientPayments(request, response);
+        request.setAttribute("activeTab", "client");
+        loadClientPayments(request); loadVendorPayments(request); loadEmployeePayments(request);
+        request.getRequestDispatcher("/admin/payment_list.jsp").forward(request, response);
     }
-    
+
     private void addVendorPayment(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
@@ -253,7 +181,7 @@ public class PaymentServlet extends HttpServlet {
         String description = request.getParameter("description");
         
         HttpSession session = request.getSession();
-        int userId = (Integer) session.getAttribute("userId");
+        int userId = Integer.parseInt(String.valueOf(session.getAttribute("userId")));
         
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -284,7 +212,9 @@ public class PaymentServlet extends HttpServlet {
             }
         }
         
-        listVendorPayments(request, response);
+        request.setAttribute("activeTab", "vendor");
+        loadClientPayments(request); loadVendorPayments(request); loadEmployeePayments(request);
+        request.getRequestDispatcher("/admin/payment_list.jsp").forward(request, response);
     }
     
     private void addEmployeePayment(HttpServletRequest request, HttpServletResponse response) 
@@ -296,7 +226,7 @@ public class PaymentServlet extends HttpServlet {
         String description = request.getParameter("description");
         
         HttpSession session = request.getSession();
-        int userId = (Integer) session.getAttribute("userId");
+        int userId = Integer.parseInt(String.valueOf(session.getAttribute("userId")));
         
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -326,6 +256,8 @@ public class PaymentServlet extends HttpServlet {
             }
         }
         
-        listEmployeePayments(request, response);
+        request.setAttribute("activeTab", "employee");
+        loadClientPayments(request); loadVendorPayments(request); loadEmployeePayments(request);
+        request.getRequestDispatcher("/admin/payment_list.jsp").forward(request, response);
     }
 }
